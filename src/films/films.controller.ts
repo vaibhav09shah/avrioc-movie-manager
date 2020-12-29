@@ -1,4 +1,5 @@
-import { Body, Controller , Get, HttpException, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller , Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { exception } from 'console';
 
 import { FilmsService } from './films.service';
 
@@ -39,6 +40,35 @@ export class FilmsController {
                 message: err.message
             }, HttpStatus.BAD_REQUEST);
         }
+        
+    }
+
+    @Patch(':id')
+    async updateMovieDetails(
+        @Param('id') id: string,
+        @Body('name') name: string,
+        @Body('desc') desc: string,
+        @Body('releaseDate') releaseDate: Date,
+        @Body('rating') rating: string,
+        @Body('ticketPrice') ticketPrice: number,
+        @Body('country') country: string,
+        @Body('genre') genre: string,
+    ) {
+        const updateFilm = this.filmsService.updateSelectedFilmDetails(id,name,desc,releaseDate,rating,ticketPrice,country,genre);
+        return updateFilm;
+
+    } 
+
+    @Delete(':id')
+    async removeProduct(@Param('id') id: string) {
+        
+        try {
+            let deleteFilmData = await this.filmsService.deleteFilm(id);
+            if(!deleteFilmData)  throw new NotFoundException("Could Not Find Data");
+        } catch (error) {
+            throw new BadRequestException("Error Deleting the data ");
+        }
+        
         
     }
 

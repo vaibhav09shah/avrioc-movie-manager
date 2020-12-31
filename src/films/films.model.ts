@@ -28,8 +28,13 @@ export const FilmsSchema = new mongoose.Schema({
     genre: {
         type: String,
         required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
     }
-
+}, {
+    timestamps: true
 })
 
 export interface Films extends mongoose.Document {
@@ -40,6 +45,7 @@ export interface Films extends mongoose.Document {
     rating: string,
     ticketPrice: number,
     country: string,
-    genre: string
+    genre: string,
+    imageUrl: string
 
 }

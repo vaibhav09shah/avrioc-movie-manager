@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller , Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post } from '@nestjs/common';
-import { exception } from 'console';
-
+import { BadRequestException, Body, Controller , Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor, MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import { FilmsService } from './films.service';
 
 @Controller('films')
@@ -21,6 +22,13 @@ export class FilmsController {
     }
 
     @Post()
+    @UseInterceptors(FileInterceptor('photo',{
+        storage: diskStorage({
+            destination: './uploads',
+            filename: editFileName,
+          }),
+          fileFilter: imageFileFilter,
+    }))
     async addNewFilm(
         @Body('name') name: string,
         @Body('desc') desc: string,
@@ -29,9 +37,12 @@ export class FilmsController {
         @Body('ticketPrice') ticketPrice: number,
         @Body('country') country: string,
         @Body('genre') genre: string,
+        @UploadedFile() file,
     ) {
+
+        let fileName = file.filename;
         try {
-            const postResults = await this.filmsService.insertFilmDetails(name,desc,releaseDate,rating,ticketPrice,country,genre);
+            const postResults = await this.filmsService.insertFilmDetails(name,desc,releaseDate,rating,ticketPrice,country,genre,fileName);
             return postResults;
         } catch (err) {
             throw new HttpException({
@@ -44,6 +55,13 @@ export class FilmsController {
     }
 
     @Patch(':id')
+    @UseInterceptors(FileInterceptor('photo',{
+        storage: diskStorage({
+            destination: './uploads',
+            filename: editFileName,
+          }),
+          fileFilter: imageFileFilter,
+    }))
     async updateMovieDetails(
         @Param('id') id: string,
         @Body('name') name: string,
@@ -53,8 +71,10 @@ export class FilmsController {
         @Body('ticketPrice') ticketPrice: number,
         @Body('country') country: string,
         @Body('genre') genre: string,
+        @UploadedFile() file,
     ) {
-        const updateFilm = this.filmsService.updateSelectedFilmDetails(id,name,desc,releaseDate,rating,ticketPrice,country,genre);
+        let fileName = file.filename;
+        const updateFilm = this.filmsService.updateSelectedFilmDetails(id,name,desc,releaseDate,rating,ticketPrice,country,genre,fileName);
         return updateFilm;
 
     } 

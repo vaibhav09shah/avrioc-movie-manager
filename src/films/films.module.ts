@@ -7,7 +7,7 @@ import { FilmsService } from './films.service';
 
 @Module({
     imports: [
-        MongooseModule.forFeature([ {name: 'Films', schema: FilmsSchema} ])
+        MongooseModule.forFeature([ {name: 'Movies', schema: FilmsSchema} ])
     ],
     controllers:[FilmsController],
     providers:[FilmsService]

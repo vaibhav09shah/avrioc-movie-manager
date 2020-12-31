@@ -7,10 +7,10 @@ import { Films } from './films.model';
 export class FilmsService {
     
     constructor(
-        @InjectModel('Films') private readonly filmsModel: Model<Films>,
+        @InjectModel('Movies') private readonly filmsModel: Model<Films>,
     ) {}
 
-    async insertFilmDetails(name: string, desc: string, releaseDate: Date, rating: string, ticketPrice: number , country: string, genre: string) {
+    async insertFilmDetails(name: string, desc: string, releaseDate: Date, rating: string, ticketPrice: number , country: string, genre: string, imageUrl: string) {
         const newFilm = new this.filmsModel({
             name,
             desc,
@@ -18,7 +18,8 @@ export class FilmsService {
             rating,
             ticketPrice,
             country,
-            genre
+            genre,
+            imageUrl
         })
 
         try {
@@ -44,7 +45,7 @@ export class FilmsService {
         }
     }
 
-    async updateSelectedFilmDetails(id: string,name: string, desc: string, releaseDate: Date, rating: string, ticketPrice: number , country: string, genre: string) {
+    async updateSelectedFilmDetails(id: string,name: string, desc: string, releaseDate: Date, rating: string, ticketPrice: number , country: string, genre: string, imageUrl: string) {
         let updatedFilmData;
         try {
             updatedFilmData = await this.filmsModel.findById(id);
@@ -56,6 +57,7 @@ export class FilmsService {
                 if(ticketPrice) updatedFilmData.ticketPrice = ticketPrice;
                 if(country) updatedFilmData.country = country;
                 if(genre) updatedFilmData.genre = genre;
+                if(imageUrl) updatedFilmData.imageUrl = imageUrl;
                 updatedFilmData.save();
                 return [updatedFilmData];
             } else {

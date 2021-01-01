@@ -42,8 +42,6 @@ export class UserService {
     }
 
     async findByPayload(payload: Payload) {
-      console.log('payload');
-      console.log(payload);
       const { username } = payload;
       const user = await this.UserModel.findOne({ username });
       return this.removePassword(user);

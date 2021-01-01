@@ -7,6 +7,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CommentsModule } from './comments/comments.module';
 import config from 'config/config';
 
 @Module({
@@ -27,7 +28,8 @@ import config from 'config/config';
             AuthModule,
             ConfigModule.forRoot({
               load:[config],
-            })
+            }),
+            CommentsModule
           ],
   controllers: [AppController],
   providers: [AppService],

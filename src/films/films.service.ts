@@ -26,7 +26,6 @@ export class FilmsService {
             let result = await newFilm.save();
             return result;
         } catch(error) {
-            console.log(error.message);
             throw new Error(error.message);
         }
     }
@@ -75,7 +74,6 @@ export class FilmsService {
             if(deleteFilm.n > 0) {
                 return deleteFilm;
             } else {
-                console.log('inside else');
                 return [];
             }
         } catch(error) {

@@ -1,4 +1,5 @@
-import { BadRequestException, Body, Controller , Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller , Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor, FilesInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
@@ -22,6 +23,7 @@ export class FilmsController {
     }
 
     @Post()
+    @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(FileInterceptor('photo',{
         storage: diskStorage({
             destination: './uploads',
@@ -55,6 +57,7 @@ export class FilmsController {
     }
 
     @Patch(':id')
+    @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(FileInterceptor('photo',{
         storage: diskStorage({
             destination: './uploads',
@@ -80,7 +83,8 @@ export class FilmsController {
     } 
 
     @Delete(':id')
-    async removeProduct(@Param('id') id: string) {
+    @UseGuards(AuthGuard('jwt'))
+    async removeMovie(@Param('id') id: string) {
         
         try {
             let deleteFilmData = await this.filmsService.deleteFilm(id);

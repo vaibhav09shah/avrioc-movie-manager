@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommentsModule } from './comments/comments.module';
+import { SeedModule } from './seed/seed.module';
 import config from '../config/config'
 
 @Module({
@@ -29,7 +30,8 @@ import config from '../config/config'
             ConfigModule.forRoot({
               load:[config],
             }),
-            CommentsModule
+            CommentsModule,
+            SeedModule
           ],
   controllers: [AppController],
   providers: [AppService],

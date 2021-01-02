@@ -5,10 +5,10 @@ export interface Films extends mongoose.Document {
     name: string,
     desc: string,
     releaseDate: Date,
-    rating: string,
+    rating: number,
     ticketPrice: number,
     country: string,
-    genre: string,
+    genre: [],
     imageUrl: string
 
 }

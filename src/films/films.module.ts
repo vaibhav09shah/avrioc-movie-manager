@@ -10,6 +10,7 @@ import { FilmsService } from './films.service';
         MongooseModule.forFeature([ {name: 'Movies', schema: FilmsSchema} ])
     ],
     controllers:[FilmsController],
-    providers:[FilmsService]
+    providers:[FilmsService],
+    exports: [FilmsService]
 })
 export class FilmsModule {}

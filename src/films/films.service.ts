@@ -10,7 +10,7 @@ export class FilmsService {
         @InjectModel('Movies') private readonly filmsModel: Model<Films>,
     ) {}
 
-    async insertFilmDetails(name: string, desc: string, releaseDate: Date, rating: number, ticketPrice: number , country: string, genre: [], imageUrl: string) {
+    async insertFilmDetails(name: string, desc: string, releaseDate: Date, rating: number, ticketPrice: number , country: string, genre: string[], imageUrl: string) {
         const newFilm = new this.filmsModel({
             name,
             desc,

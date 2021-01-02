@@ -7,7 +7,6 @@ import { appUrl , mongoDB } from './constants';
 
 beforeAll(async () => {
     await mongoose.connect(mongoDB );
-  //  await mongoose.connection.db.dropDatabase();
 })
 
 afterAll(async done => {

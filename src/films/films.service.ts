@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Films } from './films.model';
@@ -10,7 +10,7 @@ export class FilmsService {
         @InjectModel('Movies') private readonly filmsModel: Model<Films>,
     ) {}
 
-    async insertFilmDetails(name: string, desc: string, releaseDate: Date, rating: string, ticketPrice: number , country: string, genre: string, imageUrl: string) {
+    async insertFilmDetails(name: string, desc: string, releaseDate: Date, rating: number, ticketPrice: number , country: string, genre: [], imageUrl: string) {
         const newFilm = new this.filmsModel({
             name,
             desc,
@@ -21,6 +21,9 @@ export class FilmsService {
             genre,
             imageUrl
         })
+        
+
+        if(rating < 1 || rating > 5) throw new Error("Rating should be between 1 & 5");
 
         try {
             let result = await newFilm.save();
@@ -31,7 +34,7 @@ export class FilmsService {
     }
 
     async getAllFilms(){
-        const filmsList = await this.filmsModel.find();
+        const filmsList = await this.filmsModel.find().sort({'createdAt':'desc'});
         return filmsList;
     }
 
@@ -44,7 +47,7 @@ export class FilmsService {
         }
     }
 
-    async updateSelectedFilmDetails(id: string,name: string, desc: string, releaseDate: Date, rating: string, ticketPrice: number , country: string, genre: string, imageUrl: string) {
+    async updateSelectedFilmDetails(id: string,name: string, desc: string, releaseDate: Date, rating: number, ticketPrice: number , country: string, genre: string, imageUrl: string) {
         let updatedFilmData;
         try {
             updatedFilmData = await this.filmsModel.findById(id);

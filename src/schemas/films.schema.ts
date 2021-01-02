@@ -14,7 +14,7 @@ export const FilmsSchema = new mongoose.Schema({
         required: true
     },
     rating: {
-        type: String,
+        type: Number,
         required: true
     },
     ticketPrice: {
@@ -26,7 +26,7 @@ export const FilmsSchema = new mongoose.Schema({
         required: true
     },
     genre: {
-        type: String,
+        type: Array,
         required: true
     },
     imageUrl: {

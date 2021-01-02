@@ -35,10 +35,10 @@ export class FilmsController {
         @Body('name') name: string,
         @Body('desc') desc: string,
         @Body('releaseDate') releaseDate: Date,
-        @Body('rating') rating: string,
+        @Body('rating') rating: number,
         @Body('ticketPrice') ticketPrice: number,
         @Body('country') country: string,
-        @Body('genre') genre: string,
+        @Body('genre') genre: [],
         @UploadedFile() file,
     ) {
 
@@ -70,7 +70,7 @@ export class FilmsController {
         @Body('name') name: string,
         @Body('desc') desc: string,
         @Body('releaseDate') releaseDate: Date,
-        @Body('rating') rating: string,
+        @Body('rating') rating: number,
         @Body('ticketPrice') ticketPrice: number,
         @Body('country') country: string,
         @Body('genre') genre: string,

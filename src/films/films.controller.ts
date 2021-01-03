@@ -76,7 +76,11 @@ export class FilmsController {
         @Body('genre') genre: string,
         @UploadedFile() file,
     ) {
-        let fileName = file.filename;
+        let fileName = '';
+        if(file) {
+            fileName = file.filename
+        }
+       ;
         const updateFilm = this.filmsService.updateSelectedFilmDetails(id,name,desc,releaseDate,rating,ticketPrice,country,genre,fileName);
         return updateFilm;
 
